@@ -82,7 +82,7 @@
         type = card.niceType;
         cvv = card.code.name;
       } else {
-        type = '?';
+        type = 'Credit Card';
         cvv = 'CVV';
       }
 
