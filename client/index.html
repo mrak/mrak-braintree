@@ -3,13 +3,55 @@
     <head>
         <meta charset="UTF-8">
         <title>Checkout</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
-        Hello World!
-        <script src="https://js.braintreegateway.com/web/3.0.0-beta.10/js/client.min.js"></script>
-        <script src="https://js.braintreegateway.com/web/3.0.0-beta.10/js/hosted-fields.min.js"></script>
-        <script src="https://js.braintreegateway.com/web/3.0.0-beta.10/js/paypal.min.js"></script>
-        <script src="scripts.js"></script>
-    </body>
+        <div id="payment-picker">
+            <div id="paypal-area"></div>
+            <div id="credit-card-area">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            <label for="cc-number" class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></label>
+                            <div id="cc-number" class="form-control"></div>
+                            <span id="cc-number-type" class="input-group-addon">Credit Card</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <label for="cc-exp" class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></label>
+                            <div id="cc-exp" class="form-control"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <label for="cc-cvv" class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></label>
+                            <div id="cc-cvv" class="form-control"></div>
+                            <span id="cc-cvv-name" class="input-group-addon">CVV</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="input-group">
+                            <label for="cc-postal" class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></label>
+                            <div id="cc-postal" class="form-control"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <input type="button" id="cc-use" class="btn btn-success btn-block" disabled value="Loading...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="//js.braintreegateway.com/web/3.0.0-beta.10/js/client.min.js"></script>
+    <script src="//js.braintreegateway.com/web/3.0.0-beta.10/js/hosted-fields.min.js"></script>
+    <script src="//js.braintreegateway.com/web/3.0.0-beta.10/js/paypal.min.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/scripts.js"></script>
+</body>
 </html>

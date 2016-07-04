@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #efefef;
+}
+
+#payment-picker {
+    max-width: 40em;
+    margin: 0 auto;
+}
+
+#credit-card-area {
+    padding: 1em;
+    border-radius: 1em;
+}
+
+#credit-card-area {
+    background-color: #444;
+}
+
+#payment-picker .row {
+    margin: 1em 0;
+}
+
+.braintree-hosted-fields-invalid {
+    box-shadow: inset 0 0 2px 1px tomato;
+}
