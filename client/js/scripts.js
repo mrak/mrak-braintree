@@ -30,6 +30,11 @@
 
     braintree.hostedFields.create({
       client: client,
+      styles: {
+        'input.invalid': {
+          color: 'tomato'
+        }
+      },
       fields: {
         number: {
           selector: '#cc-number',
