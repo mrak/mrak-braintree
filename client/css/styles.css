@@ -9,26 +9,77 @@ body {
     flex-direction: column;
     justify-content: center;
     min-width: 100vw;
-    min-height: 100vh;
     background-color: #efefef;
+    padding: 2em;
 }
 
-#payment-picker {
+#payment-area {
     max-width: 40em;
+    width: 100%;
     margin: 0 auto;
-}
-
-#credit-card-area {
-    padding: 1em;
+    padding: 2em;
     border-radius: 1em;
-}
-
-#credit-card-area {
     background-color: #444;
 }
 
-#payment-picker .row {
-    margin: 1em 0;
+.view {
+    display: none;
+}
+
+#loading-mask {
+    margin-bottom: 0;
+    height: 3em;
+}
+
+#loading-mask .progress-bar {
+    width: 100%;
+    line-height: 3em;
+}
+
+#payment-area.paypal #paypal-area,
+#payment-area.payment-picker #payment-picker,
+#payment-area.loading #loading-mask,
+#payment-area.credit-card #credit-card-area,
+#payment-area.completed #completed-area
+{
+    display: block;
+}
+
+#credit-card-area,
+#completed-area
+{
+    margin-bottom: 2em;
+}
+
+#payment-picker .collapse,
+#payment-picker .expand
+{
+    display: inline-block;
+    float: right;
+}
+
+#payment-picker.collapsed .collapse,
+#payment-picker.expanded .expand
+{
+    display: none;
+}
+
+#payment-picker.collapsed > * {
+    display: none;
+}
+
+#payment-picker.collapsed > *:first-child {
+    display: block;
+}
+
+#payment-picker {
+    margin-bottom: 0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
 }
 
 .braintree-hosted-fields-invalid {

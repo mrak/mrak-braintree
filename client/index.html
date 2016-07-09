@@ -7,11 +7,28 @@
         <link rel="stylesheet" href="/css/styles.css">
     </head>
     <body>
-        <div id="payment-picker">
-            <div id="paypal-area"></div>
-            <div id="credit-card-area">
-                <div class="row">
-                    <div class="col-xs-12">
+        <div id="payment-area" class="loading">
+            <div id="loading-mask" class="progress view">
+                <div class="progress-bar progress-bar-striped active progress-bar-success"></div>
+            </div>
+            <div id="paypal-area" class="view">
+                <div class="form-group">
+                    <input type="button" id="paypal-focus" class="btn btn-primary btn-block" value="Refocus PayPal Popup">
+                </div>
+            </div>
+            <div id="completed-area" class="view">
+                <div class="form-group">
+                    <div class="input-group">
+                        <label id="completed-type" class="input-group-addon"></label>
+                        <input readonly type="text" id="completed-detail" class="form-control"></div>
+                </div>
+                <div class="form-group">
+                    <input type="button" id="completed-pay" class="btn btn-success btn-block" value="Checkout">
+                </div>
+            </div>
+            <div id="credit-card-area" class="view form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-12">
                         <div class="input-group">
                             <label for="cc-number" class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></label>
                             <div id="cc-number" class="form-control"></div>
@@ -19,14 +36,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6">
+                <div class="form-group">
+                    <div class="col-sm-6">
                         <div class="input-group">
                             <label for="cc-exp" class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></label>
                             <div id="cc-exp" class="form-control"></div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-sm-6">
                         <div class="input-group">
                             <label for="cc-cvv" class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></label>
                             <div id="cc-cvv" class="form-control"></div>
@@ -34,17 +51,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-6">
+                <div class="form-group">
+                    <div class="col-sm-6">
                         <div class="input-group">
                             <label for="cc-postal" class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></label>
                             <div id="cc-postal" class="form-control"></div>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <input type="button" id="cc-use" class="btn btn-success btn-block" disabled value="Loading...">
+                    <div class="col-sm-6">
+                        <input type="button" id="cc-use" class="btn btn-success btn-block" disabled value="Use Card">
                     </div>
                 </div>
+            </div>
+            <div id="payment-picker" class="collapsed view list-group">
+                <a href="#" data-view="" class="list-group-item">Choose Payment Method <span class="collapse glyphicon glyphicon-collapse-down"></span><span class="expand glyphicon glyphicon-expand"></span></a>
+                <a href="#" data-view="credit-card" class="list-group-item">Credit Card</a>
+                <a href="#" data-view="paypal" class="list-group-item">PayPal</a>
             </div>
         </div>
     </div>
