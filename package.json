@@ -2,8 +2,6 @@
   "name": "mrak-braintree",
   "private": true,
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/mrak/mrak-braintree.git"
   },
-  "author": "",
+  "author": "Eric Mrak <mail@ericmrak.info>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mrak/mrak-braintree/issues"
@@ -19,13 +17,17 @@
   "engines": {
     "node": "6.2.1"
   },
-  "homepage": "https://github.com/mrak/mrak-braintree#readme",
+  "homepage": "https://github.com/mrak/mrak-braintree",
   "dependencies": {
-    "braintree": "1.40.0",
+    "braintree": "^1.40.0",
+    "braintree-web": "^3.0.0-beta.10",
     "dotenv": "2.0.0",
     "express": "4.14.0"
   },
   "devDependencies": {
-    "tern": "0.18.0"
+    "browserify": "^13.0.1",
+    "node-sass": "^3.8.0",
+    "tern": "^0.18.0",
+    "watch": "^0.19.1"
   }
 }

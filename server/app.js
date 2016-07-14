@@ -3,7 +3,7 @@ const path = require('path');
 const braintree = require('./braintree');
 const constants = require('./constants');
 const app = express();
-const staticDir = path.resolve(__dirname, '../client');
+const staticDir = path.resolve(__dirname, '../public');
 
 app.set('port', constants.port);
 app.use(express.static(staticDir));
