@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "watch": "make -j watch",
+    "build": "make -j",
+    "prestart": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,13 +24,13 @@
   "dependencies": {
     "braintree": "^1.40.0",
     "braintree-web": "^3.0.0-beta.10",
+    "browserify": "^13.0.1",
     "dotenv": "2.0.0",
-    "express": "4.14.0"
+    "express": "4.14.0",
+    "node-sass": "^3.8.0"
   },
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "node-sass": "^3.8.0",
     "tern": "^0.18.0",
-    "watch": "^0.19.1"
+    "watchify": "^3.7.0"
   }
 }
