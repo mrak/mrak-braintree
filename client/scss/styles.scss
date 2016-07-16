@@ -78,6 +78,10 @@ body {
     overflow: hidden;
 }
 
+#payment-picker > .list-group-item {
+    cursor: pointer;
+}
+
 .form-group:last-child {
     margin-bottom: 0;
 }
