@@ -30,6 +30,7 @@
     "node-sass": "^3.8.0"
   },
   "devDependencies": {
+    "standard": "^7.1.2",
     "tern": "^0.18.0",
     "watchify": "^3.7.0"
   }

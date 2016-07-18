@@ -1,4 +1,8 @@
-PATH := node_modules/.bin:$(PATH)
+# npm-installed cli tools
+NPM_BIN := node_modules/.bin
+SASS := $(NPM_BIN)/node-sass --output-style compressed
+WATCHIFY := $(NPM_BIN)/watchify
+BROWSERIFY := $(NPM_BIN)/browserify
 
 js_src_dir := client/js
 js_src := $(js_src_dir)/index.js
@@ -15,11 +19,12 @@ css_deps := $(wildcard $(css_src_dir)/*.scss $(css_src_dir)/**/*.scss)
 html_src := client/index.html
 html_out := public/index.html
 
-node-sass := node-sass --output-style compressed
-
-.PHONY: all clean watch watch-js watch-css
+.PHONY: all clean watch watch-js watch-css lint
 
 all: $(css_out) $(js_out) $(html_out)
+
+lint:
+	$(NPM_BIN)/standard '$(js_src_dir)/**/*.js' 'server/**/*.js' server.js
 
 $(css_out_dir):
 	mkdir -p public/css
@@ -31,16 +36,16 @@ $(js_out_dir):
 	mkdir -p public/js
 
 $(js_out): $(js_out_dir) $(js_deps)
-	browserify --standalone App $(js_src) -o $@
+	$(BROWSERIFY) --standalone App $(js_src) -o $@
 
 $(html_out): $(html_src)
 	cp $< $@
 
 watch-css: $(css_out)
-	$(node-sass) -wr $(css_src) $(css_out)
+	$(SASS) -wr $(css_src) $(css_out)
 
 watch-js: $(js_out_dir)
-	watchify -v --standalone App $(js_src) -o $(js_out)
+	$(WATCHIFY) -v --standalone App $(js_src) -o $(js_out)
 
 start:
 	node server.js

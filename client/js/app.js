@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-var ajax = require('./ajax');
-var btClient = require('braintree-web/client');
-var btHostedFields = require('braintree-web/hosted-fields');
-var btPayPal = require('braintree-web/paypal');
+var ajax = require('./ajax')
+var btClient = require('braintree-web/client')
+var btHostedFields = require('braintree-web/hosted-fields')
+var btPayPal = require('braintree-web/paypal')
 
 class App {
-  constructor() {
-    this._activeView = 'loading';
-    this._components = {};
+  constructor () {
+    this._activeView = 'loading'
+    this._components = {}
     this._dom = {
       useCardBtn: document.getElementById('cc-use'),
       cvvName: document.getElementById('cc-cvv-name'),
@@ -16,35 +16,35 @@ class App {
       paymentPicker: document.getElementById('payment-picker'),
       paymentArea: document.getElementById('payment-area'),
       completedTypeField: document.getElementById('completed-type'),
-      completedDetailField: document.getElementById('completed-detail'),
-    };
+      completedDetailField: document.getElementById('completed-detail')
+    }
   }
 
-  start() {
+  start () {
     ajax({
-      url: '/tokenization_key',
-    }, this.createClient.bind(this));
+      url: '/tokenization_key'
+    }, this.createClient.bind(this))
   }
 
-  createClient(err, xhr) {
+  createClient (err, xhr) {
     if (err) {
-      console.error(err);
-      return;
+      console.error(err)
+      return
     }
 
     btClient.create({
       authorization: xhr.text
-    }, this.clientCreated.bind(this));
+    }, this.clientCreated.bind(this))
   }
 
-  clientCreated(err, client) {
+  clientCreated (err, client) {
     if (err) {
-      console.error(err);
-      return;
+      console.error(err)
+      return
     }
 
-    console.info('client created');
-    this._components.client = client;
+    console.info('client created')
+    this._components.client = client
 
     btHostedFields.create({
       client: client,
@@ -74,145 +74,150 @@ class App {
           placeholder: 'Postal Code'
         }
       }
-    }, this.componentCreated('hostedFields'));
+    }, this.componentCreated('hostedFields'))
 
     btPayPal.create({
       client: client
-    }, this.componentCreated('paypal'));
+    }, this.componentCreated('paypal'))
   }
 
-  componentCreated(name) {
+  componentCreated (name) {
     return (err, component) => {
       if (err) {
-        console.error(name, 'component not created:', err);
-        return;
+        console.error(name, 'component not created:', err)
+        return
       }
 
-      this._components[name] = component;
+      this._components[name] = component
 
       if (this._components.hostedFields && this._components.paypal) {
-        this.setupForm();
+        this.setupForm()
       }
-    };
+    }
   }
 
-  setupForm() {
-    console.log('setupForm called');
+  setupForm () {
+    console.log('setupForm called')
 
     this._dom.useCardBtn.addEventListener('click', () => {
-      this.disableUseCard('Processing...');
+      this.disableUseCard('Processing...')
       this._components.hostedFields.tokenize((err, payload) => {
         if (err) {
-          console.error(err);
+          console.error(err)
         } else {
-          this.complete(payload);
+          this.complete(payload)
         }
-        this.enableUseCard();
-      });
-    });
+        this.enableUseCard()
+      })
+    })
 
     this._dom.paymentPicker.addEventListener('click', (event) => {
-      var viewName = event.target.getAttribute('data-view');
+      var viewName = event.target.getAttribute('data-view')
 
       if (this._dom.paymentPicker.classList.contains('collapsed')) {
-        this._dom.paymentPicker.classList.toggle('collapsed');
-        this._dom.paymentPicker.classList.toggle('expanded');
-        return;
+        this._dom.paymentPicker.classList.toggle('collapsed')
+        this._dom.paymentPicker.classList.toggle('expanded')
+        return
       }
 
-      switch(viewName) {
+      switch (viewName) {
         case '':
-          this._dom.paymentPicker.classList.toggle('collapsed');
-          this._dom.paymentPicker.classList.toggle('expanded');
-          break;
+          this._dom.paymentPicker.classList.toggle('collapsed')
+          this._dom.paymentPicker.classList.toggle('expanded')
+          break
         case 'paypal':
-          this.goPayPal();
+          this.goPayPal()
+          this.navigate(viewName)
+          break
         default:
-          this.navigate(viewName);
+          this.navigate(viewName)
       }
-    });
+    })
 
     this._components.hostedFields.on('cardTypeChange', (event) => {
-      var card, type, cvv;
+      var card, type, cvv
 
       if (event.cards.length === 1) {
-        card = event.cards[0];
-        type = card.niceType;
-        cvv = card.code.name;
+        card = event.cards[0]
+        type = card.niceType
+        cvv = card.code.name
       } else {
-        type = 'Credit Card';
-        cvv = 'CVV';
+        type = 'Credit Card'
+        cvv = 'CVV'
       }
 
-      this._dom.numberType.innerHTML = type;
-      this._dom.cvvName.innerHTML = cvv;
-    });
+      this._dom.numberType.innerHTML = type
+      this._dom.cvvName.innerHTML = cvv
+    })
     this._components.hostedFields.on('validityChange', (event) => {
-      var currentField = event.fields[event.emittedBy];
+      var currentField = event.fields[event.emittedBy]
 
-      currentField.container.parentNode.classList.toggle('has-error', !currentField.isPotentiallyValid);
-      currentField.container.parentNode.classList.toggle('has-success', currentField.isValid);
+      currentField.container.parentNode.classList.toggle('has-error', !currentField.isPotentiallyValid)
+      currentField.container.parentNode.classList.toggle('has-success', currentField.isValid)
 
       for (var field in event.fields) {
         if (!event.fields[field].isValid) {
-          this.disableUseCard();
-          return;
+          this.disableUseCard()
+          return
         }
       }
 
-      this.enableUseCard();
-    });
+      this.enableUseCard()
+    })
 
-    this._dom.paymentArea.classList.remove('loading');
-    this._dom.paymentArea.classList.add('payment-picker');
+    this._dom.paymentArea.classList.remove('loading')
+    this._dom.paymentArea.classList.add('payment-picker')
   }
 
-  navigate(viewname) {
-    this._dom.paymentArea.classList.remove(this._activeView);
-    this._dom.paymentArea.classList.add(viewname);
-    this._activeView = viewname;
-    this._dom.paymentPicker.classList.add('collapsed');
-    this._dom.paymentPicker.classList.remove('expanded');
+  navigate (viewname) {
+    this._dom.paymentArea.classList.remove(this._activeView)
+    this._dom.paymentArea.classList.add(viewname)
+    this._activeView = viewname
+    this._dom.paymentPicker.classList.add('collapsed')
+    this._dom.paymentPicker.classList.remove('expanded')
   }
 
-  complete(payload) {
-    var type, detail;
+  complete (payload) {
+    var type, detail
 
     if (payload.details.email) {
-      type = 'PayPal';
-      detail = payload.details.email;
+      type = 'PayPal'
+      detail = payload.details.email
     } else {
-      type = payload.details.cardType;
-      detail = 'ending in **' + payload.details.lastTwo;
+      type = payload.details.cardType
+      detail = 'ending in **' + payload.details.lastTwo
     }
 
-    this._dom.completedTypeField.innerHTML = type;
-    this._dom.completedDetailField.value = detail;
-    console.log(payload);
-    this.navigate('completed');
+    this._dom.completedTypeField.innerHTML = type
+    this._dom.completedDetailField.value = detail
+    console.log(payload)
+    this.navigate('completed')
   }
 
-  goPayPal() {
+  goPayPal () {
     this._components.paypal.tokenize({
       flow: 'checkout',
       amount: '10.00',
       currency: 'USD'
     }, (err, payload) => {
-      this.complete(payload);
-    });
+      if (err) {
+        console.error(err)
+      }
+      this.complete(payload)
+    })
   }
 
-  disableUseCard(text) {
+  disableUseCard (text) {
     if (text) {
-      this._dom.useCardBtn.value = text;
+      this._dom.useCardBtn.value = text
     }
-    this._dom.useCardBtn.setAttribute('disabled', 'disabled');
+    this._dom.useCardBtn.setAttribute('disabled', 'disabled')
   }
 
-  enableUseCard() {
-    this._dom.useCardBtn.value = 'Use Card';
-    this._dom.useCardBtn.removeAttribute('disabled');
+  enableUseCard () {
+    this._dom.useCardBtn.value = 'Use Card'
+    this._dom.useCardBtn.removeAttribute('disabled')
   }
 }
 
-module.exports = App;
+module.exports = App
